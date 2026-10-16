@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎙️ Minutely
+# 🎙️ Gistly
 
 ### Turn any meeting recording into a summary, action items, decisions, and a chat you can ask questions to.
 
