@@ -21,7 +21,7 @@
 |---|---|---|
 | 🎥 | **Flexible input** | Paste a YouTube URL or upload MP3, WAV, M4A, MP4, MKV and more |
 | 🗣️ | **Local transcription** | Runs [faster-whisper](https://github.com/SYSTRAN/faster-whisper) on your machine. No audio leaves your computer |
-| 🌍 | **Multilingual** | Hindi, Urdu and other languages are translated to English with Gemini |
+| 🌍 | **Multilingual** | Hindi, Urdu and other languages are translated to English with Groq-hosted LLMs |
 | 📝 | **Smart summaries** | Map-reduce summarization that handles long meetings |
 | ✅ | **Action items** | Structured output: task, owner, deadline |
 | 🧭 | **Key decisions** | Only decisions that were actually finalized |
@@ -37,10 +37,10 @@ flowchart LR
     A[YouTube URL or file] --> B[FFmpeg<br/>16 kHz mono WAV]
     B --> C[faster-whisper<br/>transcription]
     C --> D{English?}
-    D -- No --> E[Gemini<br/>translation]
+    D -- No --> E[Groq LLM<br/>translation]
     D -- Yes --> F[Transcript]
     E --> F
-    F --> G[Gemini chains<br/>summary, actions, decisions]
+    F --> G[Groq LLM chains<br/>summary, actions, decisions]
     F --> H[Chunks + embeddings<br/>ChromaDB]
     H --> I[RAG chat]
     G --> J[PDF / TXT export]
@@ -54,7 +54,7 @@ flowchart LR
 | UI | Streamlit |
 | Audio | yt-dlp, FFmpeg, PyAV |
 | Speech-to-text | faster-whisper (runs locally) |
-| LLM | Google Gemini via the AI Studio API |
+| LLM | Groq API (free tier) |
 | Orchestration | LangChain (LCEL), Pydantic structured output |
 | Embeddings | HuggingFace sentence-transformers (local) |
 | Vector store | ChromaDB (in memory, one collection per meeting) |
@@ -90,7 +90,7 @@ flowchart LR
 
 - [ ] Python 3.10 or newer
 - [ ] [FFmpeg](https://ffmpeg.org/download.html) installed and on your PATH (`ffmpeg -version` should work)
-- [ ] A free Google AI Studio API key from [aistudio.google.com](https://aistudio.google.com)
+- [ ] A free Groq API key from [console.groq.com](https://console.groq.com)
 
 ### 1. Clone and install
 
@@ -126,14 +126,14 @@ pip install -r requirements.txt
 Copy `.env.example` to `.env` and fill it in:
 
 ```env
-GOOGLE_API_KEY=your_key_here
-GEMINI_MODEL=gemini-2.5-flash
+GROQ_API_KEY=your_key_here
+GROQ_MODEL=llama-3.3-70b-versatile
 EMBED_MODEL=sentence-transformers/all-MiniLM-L6-v2
 ```
 
 > ⚠️ Never commit `.env`. It is already listed in `.gitignore`.
 >
-> Free-tier model names change over time. If you get a 404 model error, check the current model name in AI Studio and update `GEMINI_MODEL`.
+> Free-tier model names change over time. If you get a model-not-found error, check the current model list in the [Groq console](https://console.groq.com) and update `GROQ_MODEL`.
 
 ### 3. Run
 
@@ -231,9 +231,9 @@ Install FFmpeg and make sure `ffmpeg -version` works in a new terminal. On Windo
 </details>
 
 <details>
-<summary><b>⏳ Gemini rate limit or quota errors (429)</b></summary>
+<summary><b>⏳ Groq rate limit errors (429)</b></summary>
 
-The free tier has limits. The app retries automatically with backoff. If it keeps failing, wait a minute or check your quota in AI Studio.
+The free tier has limits. The app retries automatically with backoff. If it keeps failing, wait a minute or check your limits in the Groq console.
 
 </details>
 
@@ -255,7 +255,7 @@ If a video needs a login, export your browser cookies to a file **outside the re
 ## 🔒 Privacy
 
 - Transcription and embeddings run **locally**.
-- Only text (the transcript and your questions) is sent to the Gemini API.
+- Only text (the transcript and your questions) is sent to the Groq API.
 - Nothing is saved to disk by default. Results live in memory for the current session.
 
 ---
@@ -283,6 +283,6 @@ Issues and pull requests are welcome. Please do not include API keys, cookies, o
 
 <div align="center">
 
-Built with ❤️ using Python, Whisper, LangChain, and Gemini.
+Built with ❤️ using Python, Whisper, LangChain, and Groq.
 
 </div>
