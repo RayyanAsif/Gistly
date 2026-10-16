@@ -1,0 +1,50 @@
+# ---------- Secrets (never commit these) ----------
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# ---------- Virtual environments ----------
+.venv/
+venv/
+env/
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# ---------- Audio / video and temp files ----------
+*.wav
+*.mp3
+*.m4a
+*.mp4
+*.mkv
+*.webm
+*.ogg
+*.flac
+*.part
+*.ytdl
+*.com.txt
+temp/
+tmp/
+
+# ---------- Vector database and caches ----------
+chroma/
+chroma_db/
+*.sqlite3
+.cache/
+huggingface/
+models/
+
+# ---------- Editor and OS ----------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

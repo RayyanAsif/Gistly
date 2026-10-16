@@ -1,0 +1,14 @@
+streamlit
+yt-dlp[default]
+faster-whisper
+python-dotenv
+pydantic
+langchain
+langchain-core
+langchain-community
+langchain-google-genai
+langchain-chroma
+langchain-huggingface
+sentence-transformers
+chromadb
+fpdf2
